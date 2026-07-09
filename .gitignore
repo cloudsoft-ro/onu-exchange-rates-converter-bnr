@@ -12,3 +12,6 @@ yarn-error.log*
 .agents/
 *.zip
 *.log
+
+# Internal planning / AI prompt documents
+prompt-*.md

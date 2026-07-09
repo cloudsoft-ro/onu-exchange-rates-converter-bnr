@@ -9,26 +9,26 @@ export default function Edit({ attributes, setAttributes }) {
   return (
     <div {...useBlockProps()}>
       <InspectorControls>
-          <PanelBody title={__('BNR Exchange Rates Settings', 'onu-rates-converter-for-bnr')} initialOpen={true}>
+          <PanelBody title={__('BNR Exchange Rates Settings', 'curs-bnr-convertor-valutar')} initialOpen={true}>
             <TextControl
-              label={__('Currencies to display (comma separated)', 'onu-rates-converter-for-bnr')}
+              label={__('Currencies to display (comma separated)', 'curs-bnr-convertor-valutar')}
               value={valute}
               onChange={(value) => setAttributes({ valute: value })}
               placeholder="EUR,USD,GBP,CHF"
-              help={__('Leave empty to use default currencies configured in plugin settings.', 'onu-rates-converter-for-bnr')}
+              help={__('Leave empty to use default currencies configured in plugin settings.', 'curs-bnr-convertor-valutar')}
             />
             <SelectControl
-              label={__('Display style', 'onu-rates-converter-for-bnr')}
+              label={__('Display style', 'curs-bnr-convertor-valutar')}
               value={stil}
               options={[
-                { label: __('Table', 'onu-rates-converter-for-bnr'), value: 'tabel' },
-                { label: __('Cards', 'onu-rates-converter-for-bnr'), value: 'card' },
-                { label: __('Inline', 'onu-rates-converter-for-bnr'), value: 'inline' },
+                { label: __('Table', 'curs-bnr-convertor-valutar'), value: 'tabel' },
+                { label: __('Cards', 'curs-bnr-convertor-valutar'), value: 'card' },
+                { label: __('Inline', 'curs-bnr-convertor-valutar'), value: 'inline' },
               ]}
               onChange={(value) => setAttributes({ stil: value })}
             />
             <ToggleControl
-              label={__('Show variation', 'onu-rates-converter-for-bnr')}
+              label={__('Show variation', 'curs-bnr-convertor-valutar')}
               checked={arata_variatie}
               onChange={(value) => setAttributes({ arata_variatie: value })}
             />
@@ -36,7 +36,7 @@ export default function Edit({ attributes, setAttributes }) {
       </InspectorControls>
 
       <ServerSideRender
-        block="onu-rates-converter-for-bnr/curs-valutar"
+        block="curs-bnr-convertor-valutar/curs-valutar"
         attributes={attributes}
       />
     </div>

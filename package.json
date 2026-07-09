@@ -1,5 +1,5 @@
 {
-  "name": "onu-rates-converter-for-bnr",
+  "name": "curs-bnr-convertor-valutar",
   "version": "1.0.0",
   "description": "Exchange rates from the National Bank of Romania (BNR), auto-updated daily, currency converter, widget, shortcode, Gutenberg block, and Elementor widget.",
   "author": "Constantin Onu",

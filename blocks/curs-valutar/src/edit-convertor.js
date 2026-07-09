@@ -9,15 +9,15 @@ export default function Edit({ attributes, setAttributes }) {
   return (
     <div {...useBlockProps()}>
       <InspectorControls>
-        <PanelBody title={__('Converter Settings', 'onu-rates-converter-for-bnr')} initialOpen={true}>
+        <PanelBody title={__('Converter Settings', 'curs-bnr-convertor-valutar')} initialOpen={true}>
           <TextControl
-            label={__('From (source currency)', 'onu-rates-converter-for-bnr')}
+            label={__('From (source currency)', 'curs-bnr-convertor-valutar')}
             value={de_la}
             onChange={(value) => setAttributes({ de_la: value.toUpperCase() })}
             placeholder="EUR"
           />
           <TextControl
-            label={__('To (target currency)', 'onu-rates-converter-for-bnr')}
+            label={__('To (target currency)', 'curs-bnr-convertor-valutar')}
             value={catre}
             onChange={(value) => setAttributes({ catre: value.toUpperCase() })}
             placeholder="RON"
@@ -26,7 +26,7 @@ export default function Edit({ attributes, setAttributes }) {
       </InspectorControls>
 
       <ServerSideRender
-        block="onu-rates-converter-for-bnr/convertor-valutar"
+        block="curs-bnr-convertor-valutar/convertor-valutar"
         attributes={attributes}
       />
     </div>

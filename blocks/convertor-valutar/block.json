@@ -1,7 +1,7 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "onu-rates-converter-for-bnr/convertor-valutar",
+  "name": "curs-bnr-convertor-valutar/convertor-valutar",
   "title": "BNR Currency Converter",
   "category": "widgets",
   "icon": "exchange",

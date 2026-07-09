@@ -1,0 +1,18 @@
+{
+  "name": "onu-rates-converter-for-bnr",
+  "version": "1.0.0",
+  "description": "Exchange rates from the National Bank of Romania (BNR), auto-updated daily, currency converter, widget, shortcode, Gutenberg block, and Elementor widget.",
+  "author": "Constantin Onu",
+  "license": "GPL-2.0-or-later",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "wp-scripts build --webpack-src-dir=blocks/curs-valutar/src",
+    "format": "wp-scripts format",
+    "lint:js": "wp-scripts lint-js",
+    "start": "wp-scripts start --webpack-src-dir=blocks/curs-valutar/src",
+    "deploy": "node bin/deploy.js"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^27.0.0"
+  }
+}

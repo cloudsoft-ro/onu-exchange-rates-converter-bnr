@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "onu-rates-converter-for-bnr/convertor-valutar",
+  "title": "BNR Currency Converter",
+  "category": "widgets",
+  "icon": "exchange",
+  "description": "Interactive currency conversion form based on BNR exchange rates.",
+  "keywords": ["bnr", "currency converter", "exchange"],
+  "textdomain": "curs-bnr-convertor-valutar",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "de_la": {
+      "type": "string",
+      "default": "EUR"
+    },
+    "catre": {
+      "type": "string",
+      "default": "RON"
+    }
+  },
+  "editorScript": "file:../../build/index.js",
+  "style": "onuexra-style"
+}

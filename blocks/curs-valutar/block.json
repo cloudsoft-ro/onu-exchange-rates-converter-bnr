@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "onu-rates-converter-for-bnr/curs-valutar",
+  "title": "BNR Exchange Rates",
+  "category": "widgets",
+  "icon": "money-alt",
+  "description": "Display BNR exchange rates on your page as a table, cards, or inline.",
+  "keywords": ["bnr", "exchange rates", "currency"],
+  "textdomain": "curs-bnr-convertor-valutar",
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"]
+  },
+  "attributes": {
+    "valute": {
+      "type": "string",
+      "default": ""
+    },
+    "stil": {
+      "type": "string",
+      "default": "tabel"
+    },
+    "arata_variatie": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "editorScript": "file:../../build/index.js",
+  "style": "onuexra-style"
+}

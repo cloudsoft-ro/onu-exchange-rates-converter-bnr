@@ -1,0 +1,274 @@
+# Copyright (C) 2026 Constantin Onu
+# This file is distributed under the same license as the Onu Exchange Rates and Converter for BNR plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Onu Exchange Rates and Converter for BNR 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/onu-rates-converter-for-bnr\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-07-05T12:30:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.8.1\n"
+"X-Domain: onu-rates-converter-for-bnr\n"
+
+#. Plugin Name of the plugin
+msgid "Onu Exchange Rates and Converter for BNR"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://buymeacoffee.com/constantinonu"
+msgstr ""
+
+#. Description of the plugin
+msgid "Exchange rates from the National Bank of Romania (BNR), auto-updated daily, currency converter, widget, shortcode, Gutenberg block, and Elementor widget."
+msgstr ""
+
+#. Author of the plugin
+msgid "Constantin Onu"
+msgstr ""
+
+msgid "XML content is empty."
+msgstr ""
+
+msgid "Failed to parse BNR XML: %s"
+msgstr ""
+
+msgid "No Cube elements found in the BNR XML."
+msgstr ""
+
+msgid "BNR server returned HTTP status code %d"
+msgstr ""
+
+msgid "BNR server returned an empty body."
+msgstr ""
+
+msgid "Successfully synchronized daily rates. Processed %d date(s), saved %d rate(s)."
+msgstr ""
+
+msgid "Invalid year specified for sync."
+msgstr ""
+
+msgid "Error syncing historical year %d: %s"
+msgstr ""
+
+msgid "Successfully synchronized historical rates for year %d. Processed %d date(s), saved %d rate(s)."
+msgstr ""
+
+msgid "Amount must be a positive number."
+msgstr ""
+
+msgid "Exchange rate for %s was not found."
+msgstr ""
+
+msgid "Target rate value is invalid."
+msgstr ""
+
+msgid "No rates available for the requested date."
+msgstr ""
+
+msgid "Amount must be non-negative."
+msgstr ""
+
+msgid "No exchange rates available for the requested date."
+msgstr ""
+
+msgid "BNR Exchange Rates"
+msgstr ""
+
+msgid "Currency"
+msgstr ""
+
+msgid "Rate"
+msgstr ""
+
+msgid "Variation"
+msgstr ""
+
+msgid "BNR Currency Converter"
+msgstr ""
+
+msgid "Amount"
+msgstr ""
+
+msgid "From"
+msgstr ""
+
+msgid "To"
+msgstr ""
+
+msgid "Rate date (optional)"
+msgstr ""
+
+msgid "Swap currencies"
+msgstr ""
+
+msgid "BNR Exchange Rates Settings"
+msgstr ""
+
+msgid "Sync Settings"
+msgstr ""
+
+msgid "Display & Formatting Settings"
+msgstr ""
+
+msgid "Daily Update Time"
+msgstr ""
+
+msgid "Keep History (days)"
+msgstr ""
+
+msgid "Delete Data on Uninstall"
+msgstr ""
+
+msgid "Active / Default Currencies"
+msgstr ""
+
+msgid "Number of Decimals"
+msgstr ""
+
+msgid "Formatting Separators"
+msgstr ""
+
+msgid "Decimal:"
+msgstr ""
+
+msgid "Thousands:"
+msgstr ""
+
+msgid "BNR typically publishes rates around 13:00 - 13:15."
+msgstr ""
+
+msgid "0 to keep all history. Any value greater than 0 will automatically delete data older than N days during daily sync."
+msgstr ""
+
+msgid "If checked, all exchange rates stored in the database and plugin settings will be permanently deleted when you uninstall the plugin."
+msgstr ""
+
+msgid "Sync error: "
+msgstr ""
+
+msgid "Sync completed successfully. Processed %1$d date(s) and saved %2$d rate(s)."
+msgstr ""
+
+msgid "Error importing year %1$d: %2$s"
+msgstr ""
+
+msgid "Import of year %1$d completed. Processed %2$d date(s) and saved %3$d rate(s)."
+msgstr ""
+
+msgid "Manual Actions & Diagnostics"
+msgstr ""
+
+msgid "Use the buttons below to trigger an immediate sync or to test the connection with the BNR XML server."
+msgstr ""
+
+msgid "Update Rates Now (Today)"
+msgstr ""
+
+msgid "Import Yearly History"
+msgstr ""
+
+msgid "Import all BNR exchange rates published in a specific year (starting from 2005) into the local database."
+msgstr ""
+
+msgid "Import Selected Year"
+msgstr ""
+
+msgid "Last 10 Sync History"
+msgstr ""
+
+msgid "No logs recorded yet."
+msgstr ""
+
+msgid "Execution Date"
+msgstr ""
+
+msgid "Rate Type"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Message / Error"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Support Development"
+msgstr ""
+
+msgid "This plugin is provided for free and is constantly updated to ensure compatibility and security for your site."
+msgstr ""
+
+msgid "If it helps you in your daily work, you can support the author by buying them a virtual coffee. Any donation is greatly appreciated!"
+msgstr ""
+
+msgid "☕ Buy me a coffee"
+msgstr ""
+
+msgid "Support"
+msgstr ""
+
+msgid "Display BNR exchange rates on your site."
+msgstr ""
+
+msgid "Title:"
+msgstr ""
+
+msgid "Displayed currencies (comma separated):"
+msgstr ""
+
+msgid "Style:"
+msgstr ""
+
+msgid "Table"
+msgstr ""
+
+msgid "Cards"
+msgstr ""
+
+msgid "Inline"
+msgstr ""
+
+msgid "Show variation from previous day"
+msgstr ""
+
+msgid "Displayed currencies"
+msgstr ""
+
+msgid "Select the currencies you want to display in the list."
+msgstr ""
+
+msgid "Display style"
+msgstr ""
+
+msgid "Show variation"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Leave empty to use default currencies configured in plugin settings."
+msgstr ""
+
+msgid "Currencies to display (comma separated)"
+msgstr ""
+
+msgid "Converter Settings"
+msgstr ""
+
+msgid "From (source currency)"
+msgstr ""
+
+msgid "To (target currency)"
+msgstr ""

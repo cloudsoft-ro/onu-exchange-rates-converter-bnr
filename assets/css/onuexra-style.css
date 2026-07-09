@@ -1,0 +1,392 @@
+/**
+ * Curs BNR – Convertor Valutar CSS styles.
+ * Premium, responsive, modern layout.
+ *
+ * @package Curs BNR – Convertor Valutar
+ */
+
+:root {
+  --onuexra-primary: #FF813F;
+  --onuexra-primary-hover: #e06c2f;
+  --onuexra-bg-light: #f9fafb;
+  --onuexra-bg-card: #ffffff;
+  --onuexra-text-main: #1f2937;
+  --onuexra-text-muted: #6b7280;
+  --onuexra-border: #e5e7eb;
+  --onuexra-success: #10b981;
+  --onuexra-success-bg: rgba(16, 185, 129, 0.1);
+  --onuexra-danger: #ef4444;
+  --onuexra-danger-bg: rgba(239, 68, 68, 0.1);
+  --onuexra-stable: #9ca3af;
+  --onuexra-stable-bg: rgba(156, 163, 175, 0.1);
+  --onuexra-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --onuexra-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --onuexra-radius: 8px;
+  --onuexra-radius-inner: 6px;
+  --onuexra-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Global Container Wrapper */
+.onuexra-rates-container {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: var(--onuexra-text-main);
+  background: var(--onuexra-bg-card);
+  border: 1px solid var(--onuexra-border);
+  border-radius: var(--onuexra-radius);
+  box-shadow: var(--onuexra-shadow);
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.onuexra-rates-container * {
+  box-sizing: border-box;
+}
+
+/* Header style */
+.onuexra-rates-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--onuexra-border);
+  padding-bottom: 12px;
+  margin-bottom: 15px;
+}
+
+.onuexra-header-title {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--onuexra-text-main);
+}
+
+.onuexra-header-date {
+  font-size: 13px;
+  color: var(--onuexra-text-muted);
+  font-weight: 500;
+}
+
+/* Error text */
+.onuexra-error {
+  color: var(--onuexra-danger);
+  font-weight: 500;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+/* Helper Badge stylings */
+.onuexra-variation {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.onuexra-var-up {
+  color: var(--onuexra-success);
+  background-color: var(--onuexra-success-bg);
+}
+
+.onuexra-var-down {
+  color: var(--onuexra-danger);
+  background-color: var(--onuexra-danger-bg);
+}
+
+.onuexra-var-stable {
+  color: var(--onuexra-stable);
+  background-color: var(--onuexra-stable-bg);
+}
+
+.onuexra-var-none {
+  color: var(--onuexra-stable);
+}
+
+/* Trend span text inline */
+.onuexra-text-up {
+  color: var(--onuexra-success);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.onuexra-text-down {
+  color: var(--onuexra-danger);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.onuexra-text-stable {
+  color: var(--onuexra-stable);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* Base Currency indicator */
+.onuexra-base-currency {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--onuexra-text-muted);
+  margin-left: 2px;
+}
+
+/* ==========================================================================
+   STYLE: Table View
+   ========================================================================== */
+.onuexra-rates-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+}
+
+.onuexra-rates-table th,
+.onuexra-rates-table td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.onuexra-rates-table th {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--onuexra-text-muted);
+  border-bottom: 2px solid var(--onuexra-border);
+}
+
+.onuexra-rates-table td {
+  font-size: 14px;
+  border-bottom: 1px solid var(--onuexra-border);
+  vertical-align: middle;
+}
+
+.onuexra-rates-table tr:last-child td {
+  border-bottom: none;
+}
+
+.onuexra-rates-table tr:hover td {
+  background-color: var(--onuexra-bg-light);
+}
+
+.onuexra-rates-table .onuexra-currency-label {
+  font-weight: 600;
+  color: var(--onuexra-text-main);
+}
+
+.onuexra-rates-table .onuexra-currency-value {
+  font-family: Courier, monospace;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.onuexra-rates-table .onuexra-col-variation,
+.onuexra-rates-table .onuexra-currency-variation {
+  text-align: right;
+}
+
+/* ==========================================================================
+   STYLE: Cards View (Grid Layout)
+   ========================================================================== */
+.onuexra-rates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 15px;
+}
+
+.onuexra-rate-card {
+  background: var(--onuexra-bg-light);
+  border: 1px solid var(--onuexra-border);
+  border-radius: var(--onuexra-radius-inner);
+  padding: 15px;
+  text-align: center;
+  transition: var(--onuexra-transition);
+}
+
+.onuexra-rate-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--onuexra-shadow-hover);
+  border-color: var(--onuexra-primary);
+}
+
+.onuexra-card-currency {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--onuexra-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.onuexra-card-value {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--onuexra-text-main);
+  margin-bottom: 8px;
+}
+
+.onuexra-card-variation {
+  display: flex;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   STYLE: Inline View
+   ========================================================================== */
+.onuexra-rates-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.onuexra-inline-item {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.onuexra-inline-separator {
+  color: var(--onuexra-border);
+  margin: 0 4px;
+}
+
+/* ==========================================================================
+   STYLE: Convertor Calculator Form
+   ========================================================================== */
+.onuexra-convertor-form {
+  margin: 0;
+}
+
+.onuexra-form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.onuexra-form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 120px;
+}
+
+.onuexra-form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--onuexra-text-muted);
+  margin-bottom: 6px;
+}
+
+.onuexra-form-group input,
+.onuexra-form-group select {
+  font-size: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--onuexra-border);
+  border-radius: var(--onuexra-radius-inner);
+  background-color: var(--onuexra-bg-card);
+  color: var(--onuexra-text-main);
+  outline: none;
+  height: 42px;
+  transition: var(--onuexra-transition);
+}
+
+.onuexra-form-group input:focus,
+.onuexra-form-group select:focus {
+  border-color: var(--onuexra-primary);
+  box-shadow: 0 0 0 3px rgba(255, 129, 63, 0.15);
+}
+
+/* Swap button */
+.onuexra-swap-btn {
+  background: var(--onuexra-bg-light);
+  border: 1px solid var(--onuexra-border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 1px; /* Align perfectly with input boxes */
+  transition: var(--onuexra-transition);
+}
+
+.onuexra-swap-btn:hover {
+  background: var(--onuexra-border);
+  border-color: var(--onuexra-text-muted);
+  transform: rotate(180deg);
+}
+
+.onuexra-swap-icon {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--onuexra-text-muted);
+}
+
+/* Date Row positioning */
+.onuexra-date-row {
+  margin-bottom: 20px;
+}
+
+.onuexra-date-row .onuexra-form-group {
+  max-width: 250px;
+}
+
+/* Calculation Result Box */
+.onuexra-result-container {
+  background-color: var(--onuexra-bg-light);
+  border: 1px dashed var(--onuexra-border);
+  border-radius: var(--onuexra-radius-inner);
+  padding: 15px 20px;
+  text-align: center;
+}
+
+.onuexra-result-calculation {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--onuexra-primary);
+  word-break: break-all;
+}
+
+.onuexra-result-date {
+  font-size: 11px;
+  color: var(--onuexra-text-muted);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .onuexra-form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .onuexra-form-group {
+    flex: none;
+    width: 100%;
+  }
+
+  .onuexra-swap-btn {
+    align-self: center;
+    transform: rotate(90deg);
+    margin: 5px 0;
+  }
+  
+  .onuexra-swap-btn:hover {
+    transform: rotate(270deg);
+  }
+
+  .onuexra-date-row .onuexra-form-group {
+    max-width: 100%;
+  }
+}

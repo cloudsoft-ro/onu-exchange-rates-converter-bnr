@@ -35,7 +35,7 @@
 
 | Shortcode display | Admin settings | Rates table & sync | Gutenberg block |
 |:---:|:---:|:---:|:---:|
-| ![Screenshot 1](screenshot-1.png) | ![Screenshot 2](screenshot-2.png) | ![Screenshot 3](screenshot-3.png) | ![Screenshot 4](screenshot-4.png) |
+| ![Screenshot 1](.wordpress-org/screenshot-1.png) | ![Screenshot 2](.wordpress-org/screenshot-2.png) | ![Screenshot 3](.wordpress-org/screenshot-3.png) | ![Screenshot 4](.wordpress-org/screenshot-4.png) |
 
 ---
 

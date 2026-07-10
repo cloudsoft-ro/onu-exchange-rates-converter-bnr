@@ -1,0 +1,16 @@
+# WordPress SVN Exclusions
+.DS_Store
+.git/
+.github/
+.gitignore
+.distignore
+.agents/
+.gemini/
+package.json
+package-lock.json
+node_modules/
+prompt-*.md
+README.md
+bin/
+*.zip
+*.log

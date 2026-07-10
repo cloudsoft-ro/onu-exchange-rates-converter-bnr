@@ -132,11 +132,7 @@ async function run() {
       'languages',
       `${PLUGIN_SLUG}.php`,
       'readme.txt',
-      'uninstall.php',
-      'screenshot-1.png',
-      'screenshot-2.png',
-      'screenshot-3.png',
-      'screenshot-4.png'
+      'uninstall.php'
     ];
 
     for (const item of includes) {

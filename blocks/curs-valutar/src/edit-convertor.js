@@ -1,10 +1,10 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody, TextControl, SelectControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { de_la, catre } = attributes;
+  const { de_la, catre, tema, densitate } = attributes;
 
   return (
     <div {...useBlockProps()}>
@@ -21,6 +21,27 @@ export default function Edit({ attributes, setAttributes }) {
             value={catre}
             onChange={(value) => setAttributes({ catre: value.toUpperCase() })}
             placeholder="RON"
+          />
+          <SelectControl
+            label={__('Theme', 'curs-bnr-convertor-valutar')}
+            value={tema}
+            options={[
+              { label: __('Default (Global Setting)', 'curs-bnr-convertor-valutar'), value: 'implicit' },
+              { label: __('Light', 'curs-bnr-convertor-valutar'), value: 'light' },
+              { label: __('Dark', 'curs-bnr-convertor-valutar'), value: 'dark' },
+            ]}
+            onChange={(value) => setAttributes({ tema: value })}
+          />
+          <SelectControl
+            label={__('Layout Style / Density', 'curs-bnr-convertor-valutar')}
+            value={densitate}
+            options={[
+              { label: __('Default (Global Setting)', 'curs-bnr-convertor-valutar'), value: 'implicit' },
+              { label: __('Compact (Narrow)', 'curs-bnr-convertor-valutar'), value: 'compact' },
+              { label: __('Normal', 'curs-bnr-convertor-valutar'), value: 'normal' },
+              { label: __('Spacious (Loose)', 'curs-bnr-convertor-valutar'), value: 'spacious' },
+            ]}
+            onChange={(value) => setAttributes({ densitate: value })}
           />
         </PanelBody>
       </InspectorControls>

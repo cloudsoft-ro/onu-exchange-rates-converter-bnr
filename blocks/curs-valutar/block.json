@@ -24,6 +24,14 @@
     "arata_variatie": {
       "type": "boolean",
       "default": true
+    },
+    "tema": {
+      "type": "string",
+      "default": "implicit"
+    },
+    "densitate": {
+      "type": "string",
+      "default": "implicit"
     }
   },
   "editorScript": "file:../../build/index.js",

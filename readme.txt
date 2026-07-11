@@ -5,7 +5,7 @@ Tags: exchange rates, currency converter, bnr, gutenberg block, elementor
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,11 @@ Yes. The Elementor widget is loaded only if the Elementor plugin is active. Shor
 4. Gutenberg block preview în editor
 
 == Changelog ==
+
+= 1.0.3 =
+* Adăugat opțiunea de a comuta între tema Light și tema Dark (atât global din setări, cât și local per shortcode / bloc).
+* Adăugat 3 stiluri de densitate pentru layout (Compact, Normal și Spațios).
+* Integrat controale de selectare a temei și a densității în panourile laterale pentru ambele blocuri Gutenberg.
 
 = 1.0.2 =
 * Adăugat branding vizual oficial (logo, iconițe și bannere personalizate pentru WordPress.org).

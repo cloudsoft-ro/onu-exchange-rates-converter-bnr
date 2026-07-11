@@ -90,6 +90,8 @@ class Shortcodes {
 				'data'           => '',
 				'stil'           => 'tabel',
 				'arata_variatie' => 'da',
+				'tema'           => 'implicit',
+				'densitate'      => 'implicit',
 			),
 			$atts,
 			'onuexra_curs'
@@ -100,6 +102,16 @@ class Shortcodes {
 		$date           = sanitize_text_field( $atts['data'] );
 		$style          = sanitize_key( $atts['stil'] );
 		$show_variation = 'da' === $atts['arata_variatie'];
+
+		$theme = sanitize_key( $atts['tema'] );
+		if ( ! in_array( $theme, array( 'light', 'dark' ), true ) ) {
+			$theme = get_option( 'onuexra_theme', 'light' );
+		}
+
+		$layout_style = sanitize_key( $atts['densitate'] );
+		if ( ! in_array( $layout_style, array( 'compact', 'normal', 'spacious' ), true ) ) {
+			$layout_style = get_option( 'onuexra_layout_style', 'normal' );
+		}
 
 		wp_enqueue_style( 'onuexra-style' );
 
@@ -124,7 +136,7 @@ class Shortcodes {
 
 		ob_start();
 		?>
-		<div class="onuexra-rates-container onuexra-style-<?php echo esc_attr( $style ); ?>">
+		<div class="onuexra-rates-container onuexra-style-<?php echo esc_attr( $style ); ?> onuexra-theme-<?php echo esc_attr( $theme ); ?> onuexra-layout-<?php echo esc_attr( $layout_style ); ?>">
 			<div class="onuexra-rates-header">
 				<span class="onuexra-header-title"><?php esc_html_e( 'BNR Exchange Rates', 'curs-bnr-convertor-valutar' ); ?></span>
 				<span class="onuexra-header-date"><?php echo esc_html( $display_date ); ?></span>
@@ -251,8 +263,10 @@ class Shortcodes {
 	public static function render_convertor( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'de_la' => 'EUR',
-				'catre' => 'RON',
+				'de_la'     => 'EUR',
+				'catre'     => 'RON',
+				'tema'      => 'implicit',
+				'densitate' => 'implicit',
 			),
 			$atts,
 			'onuexra_convertor'
@@ -264,6 +278,16 @@ class Shortcodes {
 		$from_currency = strtoupper( sanitize_key( $atts['de_la'] ) );
 		$to_currency   = strtoupper( sanitize_key( $atts['catre'] ) );
 
+		$theme = sanitize_key( $atts['tema'] );
+		if ( ! in_array( $theme, array( 'light', 'dark' ), true ) ) {
+			$theme = get_option( 'onuexra_theme', 'light' );
+		}
+
+		$layout_style = sanitize_key( $atts['densitate'] );
+		if ( ! in_array( $layout_style, array( 'compact', 'normal', 'spacious' ), true ) ) {
+			$layout_style = get_option( 'onuexra_layout_style', 'normal' );
+		}
+
 		$currencies = DB::get_active_currencies();
 		if ( ! in_array( 'RON', $currencies, true ) ) {
 			$currencies[] = 'RON';
@@ -272,7 +296,7 @@ class Shortcodes {
 
 		ob_start();
 		?>
-		<div class="onuexra-convertor-wrapper onuexra-rates-container">
+		<div class="onuexra-convertor-wrapper onuexra-rates-container onuexra-theme-<?php echo esc_attr( $theme ); ?> onuexra-layout-<?php echo esc_attr( $layout_style ); ?>">
 			<div class="onuexra-rates-header">
 				<span class="onuexra-header-title"><?php esc_html_e( 'BNR Currency Converter', 'curs-bnr-convertor-valutar' ); ?></span>
 			</div>
@@ -416,13 +440,17 @@ class Shortcodes {
 	 * @return string HTML output.
 	 */
 	public static function render_convertor_block( $attributes ) {
-		$de_la = isset( $attributes['de_la'] ) ? $attributes['de_la'] : 'EUR';
-		$catre = isset( $attributes['catre'] ) ? $attributes['catre'] : 'RON';
+		$de_la     = isset( $attributes['de_la'] ) ? $attributes['de_la'] : 'EUR';
+		$catre     = isset( $attributes['catre'] ) ? $attributes['catre'] : 'RON';
+		$tema      = isset( $attributes['tema'] ) ? $attributes['tema'] : 'implicit';
+		$densitate = isset( $attributes['densitate'] ) ? $attributes['densitate'] : 'implicit';
 
 		return self::render_convertor(
 			array(
-				'de_la' => $de_la,
-				'catre' => $catre,
+				'de_la'     => $de_la,
+				'catre'     => $catre,
+				'tema'      => $tema,
+				'densitate' => $densitate,
 			)
 		);
 	}
@@ -442,12 +470,16 @@ class Shortcodes {
 
 		$stil           = isset( $attributes['stil'] ) ? $attributes['stil'] : 'tabel';
 		$arata_variatie = isset( $attributes['arata_variatie'] ) && $attributes['arata_variatie'] ? 'da' : 'nu';
+		$tema           = isset( $attributes['tema'] ) ? $attributes['tema'] : 'implicit';
+		$densitate      = isset( $attributes['densitate'] ) ? $attributes['densitate'] : 'implicit';
 
 		return self::render_curs(
 			array(
 				'valute'         => $valute,
 				'stil'           => $stil,
 				'arata_variatie' => $arata_variatie,
+				'tema'           => $tema,
+				'densitate'      => $densitate,
 			)
 		);
 	}

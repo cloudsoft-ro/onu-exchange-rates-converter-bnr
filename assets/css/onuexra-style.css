@@ -26,6 +26,17 @@
   --onuexra-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Dark Theme Overrides */
+.onuexra-theme-dark {
+  --onuexra-bg-light: #1f2937;
+  --onuexra-bg-card: #111827;
+  --onuexra-text-main: #f9fafb;
+  --onuexra-text-muted: #9ca3af;
+  --onuexra-border: #374151;
+  --onuexra-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  --onuexra-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
 /* Global Container Wrapper */
 .onuexra-rates-container {
   box-sizing: border-box;
@@ -390,3 +401,160 @@
     max-width: 100%;
   }
 }
+
+/* ==========================================================================
+   DENSITY STYLES: Compact / Normal / Spacious
+   ========================================================================== */
+
+/* Compact Mode */
+.onuexra-layout-compact {
+  padding: 12px;
+}
+.onuexra-layout-compact .onuexra-rates-header {
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+.onuexra-layout-compact .onuexra-header-title {
+  font-size: 14px;
+}
+.onuexra-layout-compact .onuexra-header-date {
+  font-size: 11px;
+}
+.onuexra-layout-compact .onuexra-rates-table th,
+.onuexra-layout-compact .onuexra-rates-table td {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+.onuexra-layout-compact .onuexra-rates-table .onuexra-currency-value {
+  font-size: 13px;
+}
+.onuexra-layout-compact .onuexra-rates-grid {
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+}
+.onuexra-layout-compact .onuexra-rate-card {
+  padding: 10px;
+}
+.onuexra-layout-compact .onuexra-card-currency {
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+.onuexra-layout-compact .onuexra-card-value {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.onuexra-layout-compact .onuexra-rates-inline {
+  gap: 4px;
+  font-size: 12px;
+}
+.onuexra-layout-compact .onuexra-form-row {
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.onuexra-layout-compact .onuexra-form-group {
+  min-width: 100px;
+}
+.onuexra-layout-compact .onuexra-form-group label {
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+.onuexra-layout-compact .onuexra-form-group input,
+.onuexra-layout-compact .onuexra-form-group select {
+  font-size: 13px;
+  padding: 6px 8px;
+  height: 34px;
+}
+.onuexra-layout-compact .onuexra-swap-btn {
+  width: 34px;
+  height: 34px;
+}
+.onuexra-layout-compact .onuexra-swap-icon {
+  font-size: 15px;
+}
+.onuexra-layout-compact .onuexra-result-container {
+  padding: 10px 15px;
+}
+.onuexra-layout-compact .onuexra-result-calculation {
+  font-size: 16px;
+}
+.onuexra-layout-compact .onuexra-variation {
+  font-size: 11px;
+  padding: 2px 6px;
+}
+
+/* Spacious Mode */
+.onuexra-layout-spacious {
+  padding: 30px;
+}
+.onuexra-layout-spacious .onuexra-rates-header {
+  padding-bottom: 18px;
+  margin-bottom: 25px;
+}
+.onuexra-layout-spacious .onuexra-header-title {
+  font-size: 18px;
+}
+.onuexra-layout-spacious .onuexra-header-date {
+  font-size: 14px;
+}
+.onuexra-layout-spacious .onuexra-rates-table th,
+.onuexra-layout-spacious .onuexra-rates-table td {
+  padding: 18px 24px;
+  font-size: 16px;
+}
+.onuexra-layout-spacious .onuexra-rates-table .onuexra-currency-value {
+  font-size: 17px;
+}
+.onuexra-layout-spacious .onuexra-rates-grid {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+}
+.onuexra-layout-spacious .onuexra-rate-card {
+  padding: 22px;
+}
+.onuexra-layout-spacious .onuexra-card-currency {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.onuexra-layout-spacious .onuexra-card-value {
+  font-size: 19px;
+  margin-bottom: 12px;
+}
+.onuexra-layout-spacious .onuexra-rates-inline {
+  gap: 12px;
+  font-size: 16px;
+}
+.onuexra-layout-spacious .onuexra-form-row {
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.onuexra-layout-spacious .onuexra-form-group {
+  min-width: 140px;
+}
+.onuexra-layout-spacious .onuexra-form-group label {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.onuexra-layout-spacious .onuexra-form-group input,
+.onuexra-layout-spacious .onuexra-form-group select {
+  font-size: 16px;
+  padding: 12px 16px;
+  height: 48px;
+}
+.onuexra-layout-spacious .onuexra-swap-btn {
+  width: 46px;
+  height: 46px;
+}
+.onuexra-layout-spacious .onuexra-swap-icon {
+  font-size: 20px;
+}
+.onuexra-layout-spacious .onuexra-result-container {
+  padding: 22px 30px;
+}
+.onuexra-layout-spacious .onuexra-result-calculation {
+  font-size: 24px;
+}
+.onuexra-layout-spacious .onuexra-variation {
+  font-size: 13px;
+  padding: 5px 10px;
+}
+

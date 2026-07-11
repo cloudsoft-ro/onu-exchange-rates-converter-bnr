@@ -19,6 +19,14 @@
     "catre": {
       "type": "string",
       "default": "RON"
+    },
+    "tema": {
+      "type": "string",
+      "default": "implicit"
+    },
+    "densitate": {
+      "type": "string",
+      "default": "implicit"
     }
   },
   "editorScript": "file:../../build/index.js",

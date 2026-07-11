@@ -3,7 +3,7 @@
  * Plugin Name:       Onu Exchange Rates and Converter for BNR
  * Plugin URI:        https://buymeacoffee.com/constantinonu
  * Description:       Exchange rates from the National Bank of Romania (BNR), auto-updated daily, currency converter, widget, shortcode, Gutenberg block, and Elementor widget.
- * Version:           1.0.2
+ * Version:           1.0.3
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Constantin Onu
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define Constants.
-define( 'ONUEXRA_VERSION', '1.0.2' );
+define( 'ONUEXRA_VERSION', '1.0.3' );
 define( 'ONUEXRA_DB_VERSION', '1.0.0' );
 define( 'ONUEXRA_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ONUEXRA_URL', plugin_dir_url( __FILE__ ) );

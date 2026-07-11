@@ -101,6 +101,18 @@ class Admin {
 			'default'           => false,
 		) );
 
+		register_setting( 'onuexra_settings_group', 'onuexra_theme', array(
+			'type'              => 'string',
+			'sanitize_callback' => array( __CLASS__, 'sanitize_theme' ),
+			'default'           => 'light',
+		) );
+
+		register_setting( 'onuexra_settings_group', 'onuexra_layout_style', array(
+			'type'              => 'string',
+			'sanitize_callback' => array( __CLASS__, 'sanitize_layout_style' ),
+			'default'           => 'normal',
+		) );
+
 		add_settings_section(
 			'onuexra_sync_section',
 			__( 'Sync Settings', 'curs-bnr-convertor-valutar' ),
@@ -162,6 +174,22 @@ class Admin {
 			'onuexra-settings',
 			'onuexra_display_section'
 		);
+
+		add_settings_field(
+			'onuexra_theme',
+			__( 'Frontend Theme', 'curs-bnr-convertor-valutar' ),
+			array( __CLASS__, 'field_theme_html' ),
+			'onuexra-settings',
+			'onuexra_display_section'
+		);
+
+		add_settings_field(
+			'onuexra_layout_style',
+			__( 'Layout Style / Density', 'curs-bnr-convertor-valutar' ),
+			array( __CLASS__, 'field_layout_style_html' ),
+			'onuexra-settings',
+			'onuexra_display_section'
+		);
 	}
 
 	/**
@@ -209,6 +237,28 @@ class Admin {
 		}
 
 		return $sanitized;
+	}
+
+	/**
+	 * Sanitize theme selection.
+	 *
+	 * @param string $theme Theme value.
+	 * @return string
+	 */
+	public static function sanitize_theme( $theme ) {
+		$theme = sanitize_text_field( $theme );
+		return in_array( $theme, array( 'light', 'dark' ), true ) ? $theme : 'light';
+	}
+
+	/**
+	 * Sanitize layout style selection.
+	 *
+	 * @param string $style Layout style value.
+	 * @return string
+	 */
+	public static function sanitize_layout_style( $style ) {
+		$style = sanitize_text_field( $style );
+		return in_array( $style, array( 'compact', 'normal', 'spacious' ), true ) ? $style : 'normal';
 	}
 
 	/**
@@ -268,6 +318,27 @@ class Admin {
 		$thousands = get_option( 'onuexra_thousands_sep', '.' );
 		echo '<label>' . esc_html__( 'Decimal:', 'curs-bnr-convertor-valutar' ) . ' <input type="text" style="width: 50px;" name="onuexra_decimal_sep" value="' . esc_attr( $dec_point ) . '" /></label> &nbsp; ';
 		echo '<label>' . esc_html__( 'Thousands:', 'curs-bnr-convertor-valutar' ) . ' <input type="text" style="width: 50px;" name="onuexra_thousands_sep" value="' . esc_attr( $thousands ) . '" /></label>';
+	}
+
+	public static function field_theme_html() {
+		$theme = get_option( 'onuexra_theme', 'light' );
+		?>
+		<select name="onuexra_theme">
+			<option value="light" <?php selected( $theme, 'light' ); ?>><?php esc_html_e( 'Light Theme', 'curs-bnr-convertor-valutar' ); ?></option>
+			<option value="dark" <?php selected( $theme, 'dark' ); ?>><?php esc_html_e( 'Dark Theme', 'curs-bnr-convertor-valutar' ); ?></option>
+		</select>
+		<?php
+	}
+
+	public static function field_layout_style_html() {
+		$style = get_option( 'onuexra_layout_style', 'normal' );
+		?>
+		<select name="onuexra_layout_style">
+			<option value="compact" <?php selected( $style, 'compact' ); ?>><?php esc_html_e( 'Compact (Narrow)', 'curs-bnr-convertor-valutar' ); ?></option>
+			<option value="normal" <?php selected( $style, 'normal' ); ?>><?php esc_html_e( 'Normal', 'curs-bnr-convertor-valutar' ); ?></option>
+			<option value="spacious" <?php selected( $style, 'spacious' ); ?>><?php esc_html_e( 'Spacious (Loose)', 'curs-bnr-convertor-valutar' ); ?></option>
+		</select>
+		<?php
 	}
 
 	/**

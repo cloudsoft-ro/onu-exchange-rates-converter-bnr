@@ -4,7 +4,7 @@ import { PanelBody, TextControl, SelectControl, ToggleControl } from '@wordpress
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { valute, stil, arata_variatie } = attributes;
+  const { valute, stil, arata_variatie, tema, densitate } = attributes;
 
   return (
     <div {...useBlockProps()}>
@@ -31,6 +31,27 @@ export default function Edit({ attributes, setAttributes }) {
               label={__('Show variation', 'curs-bnr-convertor-valutar')}
               checked={arata_variatie}
               onChange={(value) => setAttributes({ arata_variatie: value })}
+            />
+            <SelectControl
+              label={__('Theme', 'curs-bnr-convertor-valutar')}
+              value={tema}
+              options={[
+                { label: __('Default (Global Setting)', 'curs-bnr-convertor-valutar'), value: 'implicit' },
+                { label: __('Light', 'curs-bnr-convertor-valutar'), value: 'light' },
+                { label: __('Dark', 'curs-bnr-convertor-valutar'), value: 'dark' },
+              ]}
+              onChange={(value) => setAttributes({ tema: value })}
+            />
+            <SelectControl
+              label={__('Layout Style / Density', 'curs-bnr-convertor-valutar')}
+              value={densitate}
+              options={[
+                { label: __('Default (Global Setting)', 'curs-bnr-convertor-valutar'), value: 'implicit' },
+                { label: __('Compact (Narrow)', 'curs-bnr-convertor-valutar'), value: 'compact' },
+                { label: __('Normal', 'curs-bnr-convertor-valutar'), value: 'normal' },
+                { label: __('Spacious (Loose)', 'curs-bnr-convertor-valutar'), value: 'spacious' },
+              ]}
+              onChange={(value) => setAttributes({ densitate: value })}
             />
         </PanelBody>
       </InspectorControls>

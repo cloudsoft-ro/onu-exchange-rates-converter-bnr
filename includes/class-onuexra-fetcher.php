@@ -163,8 +163,17 @@ class Fetcher {
 	/**
 	 * Fetch exchange rates from a URL.
 	 *
+	 * Performs an HTTP GET request to the given URL and validates the response
+	 * before attempting to parse it as XML. Specifically, it checks:
+	 *  - HTTP status code is 200.
+	 *  - Response body is not empty.
+	 *  - Content-Type header contains 'xml' (guards against HTML error pages
+	 *    returned by WAFs, CDNs, or BNR maintenance pages with a 200 status).
+	 *  - Response body does not start with an HTML tag (secondary guard for
+	 *    servers that omit or misreport their Content-Type).
+	 *
 	 * @param string $url Target XML URL.
-	 * @return array|\WP_Error Stats or error.
+	 * @return array|\WP_Error Stats array on success, or WP_Error on failure.
 	 */
 	public static function fetch_url( $url ) {
 		$response = wp_remote_get(
@@ -187,6 +196,22 @@ class Fetcher {
 		$body = wp_remote_retrieve_body( $response );
 		if ( empty( $body ) ) {
 			return new \WP_Error( 'http_empty_body', __( 'BNR server returned an empty body.', 'curs-bnr-convertor-valutar' ) );
+		}
+
+		// Verify the response is XML and not an HTML error page (e.g. WAF, maintenance page).
+		$content_type = wp_remote_retrieve_header( $response, 'content-type' );
+		if ( ! empty( $content_type ) && false === strpos( $content_type, 'xml' ) && false === strpos( $content_type, 'octet-stream' ) ) {
+			return new \WP_Error(
+				'http_not_xml',
+				/* translators: %s: Content-Type value returned by the server */
+				sprintf( __( 'BNR server did not return XML (Content-Type: %s). The server may be down or returning an error page.', 'curs-bnr-convertor-valutar' ), $content_type )
+			);
+		}
+
+		// Guard against HTML error pages that slip through with an XML content-type or no content-type.
+		$trimmed_body = ltrim( $body );
+		if ( '<' !== $trimmed_body[0] || ( str_starts_with( $trimmed_body, '<!DOCTYPE' ) || str_starts_with( $trimmed_body, '<html' ) || str_starts_with( $trimmed_body, '<HTML' ) ) ) {
+			return new \WP_Error( 'http_html_response', __( 'BNR server returned an HTML page instead of XML. The server may be down or returning an error page.', 'curs-bnr-convertor-valutar' ) );
 		}
 
 		$parsed_xml = self::parse_xml( $body );

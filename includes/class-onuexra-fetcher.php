@@ -20,12 +20,12 @@ class Fetcher {
 	/**
 	 * Daily rates XML URL.
 	 */
-	const DAILY_URL = 'https://www.bnr.ro/nbrfxrates.xml';
+	const DAILY_URL = 'https://curs.bnr.ro/nbrfxrates.xml';
 
 	/**
 	 * Annual historical XML URL template.
 	 */
-	const ANNUAL_URL_TEMPLATE = 'https://bnr.ro/files/xml/years/nbrfxrates%d.xml';
+	const ANNUAL_URL_TEMPLATE = 'https://curs.bnr.ro/files/xml/years/nbrfxrates%d.xml';
 
 	/**
 	 * Initialize Fetcher.

@@ -372,6 +372,24 @@ class Admin {
 			}
 		}
 
+		if ( isset( $_POST['onuexra_import_5years'] ) && isset( $_POST['onuexra_nonce'] ) ) {
+			if ( wp_verify_nonce( sanitize_key( $_POST['onuexra_nonce'] ), 'onuexra_action_nonce' ) ) {
+				$current_year  = intval( gmdate( 'Y' ) );
+				$years_to_sync = range( $current_year - 4, $current_year );
+				$batch_result  = Fetcher::fetch_years_batch( $years_to_sync );
+				$action_notice = array(
+					'type'    => 'success',
+					'message' => sprintf(
+						/* translators: 1: number of years, 2: number of dates, 3: number of rates */
+						__( 'Sync of last 5 years completed. Processed %1$d year(s), %2$d date(s), and saved %3$d rate(s).', 'curs-bnr-convertor-valutar' ),
+						$batch_result['years_processed'],
+						$batch_result['dates_processed'],
+						$batch_result['rates_saved']
+					),
+				);
+			}
+		}
+
 		if ( isset( $_POST['onuexra_import_history'] ) && isset( $_POST['onuexra_nonce'] ) ) {
 			if ( wp_verify_nonce( sanitize_key( $_POST['onuexra_nonce'] ), 'onuexra_action_nonce' ) ) {
 				$year = isset( $_POST['onuexra_import_year'] ) ? intval( $_POST['onuexra_import_year'] ) : 0;
@@ -427,9 +445,14 @@ class Admin {
 						<p><?php esc_html_e( 'Use the buttons below to trigger an immediate sync or to test the connection with the BNR XML server.', 'curs-bnr-convertor-valutar' ); ?></p>
 
 						<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px;">
-							<form method="post" action="">
+							<form method="post" action="" style="display: inline-block;">
 								<?php wp_nonce_field( 'onuexra_action_nonce', 'onuexra_nonce' ); ?>
 								<input type="submit" name="onuexra_manual_fetch" class="button button-primary" value="<?php esc_attr_e( 'Update Rates Now (Today)', 'curs-bnr-convertor-valutar' ); ?>" />
+							</form>
+
+							<form method="post" action="" style="display: inline-block;">
+								<?php wp_nonce_field( 'onuexra_action_nonce', 'onuexra_nonce' ); ?>
+								<input type="submit" name="onuexra_import_5years" class="button button-secondary" value="<?php esc_attr_e( 'Sync Last 5 Years (for Charts)', 'curs-bnr-convertor-valutar' ); ?>" />
 							</form>
 						</div>
 

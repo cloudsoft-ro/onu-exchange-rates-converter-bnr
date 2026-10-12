@@ -558,3 +558,337 @@
   padding: 5px 10px;
 }
 
+/* ==========================================================================
+   STYLE: Financial Chart Widget (SVG Interactive)
+   ========================================================================== */
+.onuexra-chart-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.onuexra-chart-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--onuexra-border);
+}
+
+.onuexra-chart-heading-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.onuexra-chart-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--onuexra-text-main);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.onuexra-chart-currency-select {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border: 1px solid var(--onuexra-border);
+  border-radius: var(--onuexra-radius-inner);
+  background: var(--onuexra-bg-light);
+  color: var(--onuexra-text-main);
+  cursor: pointer;
+  outline: none;
+  transition: var(--onuexra-transition);
+}
+
+.onuexra-chart-currency-select:focus {
+  border-color: var(--onuexra-primary);
+}
+
+/* Period Switcher Pills */
+.onuexra-chart-periods {
+  display: inline-flex;
+  align-items: center;
+  background: var(--onuexra-bg-light);
+  border: 1px solid var(--onuexra-border);
+  border-radius: 20px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.onuexra-period-btn {
+  background: transparent;
+  border: none;
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--onuexra-text-muted);
+  cursor: pointer;
+  outline: none;
+  transition: var(--onuexra-transition);
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1;
+}
+
+.onuexra-period-btn:hover {
+  color: var(--onuexra-text-main);
+}
+
+.onuexra-period-btn.is-active {
+  background: var(--onuexra-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(255, 129, 63, 0.3);
+}
+
+/* Rate & Stats Header */
+.onuexra-chart-header-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.onuexra-chart-hero-rate {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.onuexra-chart-current-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--onuexra-text-main);
+  font-family: Courier, monospace;
+}
+
+.onuexra-chart-current-diff {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.onuexra-diff-up {
+  color: var(--onuexra-success);
+  background: var(--onuexra-success-bg);
+}
+
+.onuexra-diff-down {
+  color: var(--onuexra-danger);
+  background: var(--onuexra-danger-bg);
+}
+
+/* Secondary Stats Cards Grid */
+.onuexra-chart-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.onuexra-stat-card {
+  background: var(--onuexra-bg-light);
+  border: 1px solid var(--onuexra-border);
+  border-radius: var(--onuexra-radius-inner);
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.onuexra-stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--onuexra-text-muted);
+  margin-bottom: 4px;
+}
+
+.onuexra-stat-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--onuexra-text-main);
+  font-family: Courier, monospace;
+}
+
+/* Canvas / SVG Container */
+.onuexra-chart-canvas-container {
+  position: relative;
+  width: 100%;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.onuexra-chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  cursor: crosshair;
+}
+
+/* SVG Line & Area */
+.onuexra-line-path {
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.onuexra-guide-line {
+  stroke: var(--onuexra-border);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.onuexra-guide-label {
+  font-size: 10px;
+  font-weight: 600;
+  fill: var(--onuexra-text-muted);
+  font-family: Courier, monospace;
+}
+
+.onuexra-xaxis-label {
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--onuexra-text-muted);
+}
+
+/* Crosshair Line & Dot */
+.onuexra-crosshair-line {
+  stroke: var(--onuexra-text-muted);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 3;
+  pointer-events: none;
+}
+
+.onuexra-crosshair-dot {
+  stroke: #ffffff;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  pointer-events: none;
+}
+
+/* Floating Tooltip */
+.onuexra-chart-tooltip {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  background: var(--onuexra-bg-card);
+  border: 1px solid var(--onuexra-border);
+  border-radius: var(--onuexra-radius-inner);
+  box-shadow: var(--onuexra-shadow-hover);
+  padding: 8px 12px;
+  text-align: center;
+  white-space: nowrap;
+  transform: translateZ(0);
+  transition: opacity 0.15s ease;
+}
+
+.onuexra-tooltip-date {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--onuexra-text-muted);
+  margin-bottom: 2px;
+}
+
+.onuexra-tooltip-rate {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--onuexra-text-main);
+  font-family: Courier, monospace;
+}
+
+.onuexra-tooltip-diff {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Loading Overlay */
+.onuexra-chart-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.onuexra-theme-dark .onuexra-chart-loader {
+  background: rgba(17, 24, 39, 0.7);
+}
+
+.onuexra-chart-loader.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.onuexra-chart-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--onuexra-border);
+  border-top-color: var(--onuexra-primary);
+  border-radius: 50%;
+  animation: onuexra-spin 0.8s linear infinite;
+}
+
+@keyframes onuexra-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.onuexra-chart-empty-msg {
+  padding: 40px 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--onuexra-text-muted);
+  font-style: italic;
+}
+
+/* Compact layout adjustments (Widgets & Sidebars) */
+.onuexra-layout-compact .onuexra-chart-current-value {
+  font-size: 20px;
+}
+
+.onuexra-layout-compact .onuexra-period-btn {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+.onuexra-layout-compact .onuexra-chart-stats-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.onuexra-layout-compact .onuexra-stat-card {
+  padding: 6px 8px;
+}
+
+@media (max-width: 600px) {
+  .onuexra-chart-top-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .onuexra-chart-periods {
+    justify-content: center;
+  }
+  .onuexra-chart-current-value {
+    font-size: 22px;
+  }
+}
+
+

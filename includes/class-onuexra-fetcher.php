@@ -272,6 +272,34 @@ class Fetcher {
 	}
 
 	/**
+	 * Fetch and sync exchange rates for a batch of years.
+	 *
+	 * @param array $years Array of integer years (e.g. [2022, 2023, 2024, 2025, 2026]).
+	 * @return array Aggregate stats of imported years.
+	 */
+	public static function fetch_years_batch( array $years ) {
+		$summary = array(
+			'years_processed' => 0,
+			'dates_processed' => 0,
+			'rates_saved'     => 0,
+			'errors'          => array(),
+		);
+
+		foreach ( $years as $year ) {
+			$res = self::fetch_year( $year );
+			if ( is_wp_error( $res ) ) {
+				$summary['errors'][ $year ] = $res->get_error_message();
+			} else {
+				$summary['years_processed']++;
+				$summary['dates_processed'] += $res['dates_processed'];
+				$summary['rates_saved']     += $res['rates_saved'];
+			}
+		}
+
+		return $summary;
+	}
+
+	/**
 	 * Add an execution log entry and maintain a maximum count of 10 entries.
 	 *
 	 * @param string $status  'success' or 'error'.

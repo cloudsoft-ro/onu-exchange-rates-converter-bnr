@@ -20,6 +20,8 @@ class Shortcodes {
 	public static function init() {
 		add_shortcode( 'onuexra_curs', array( __CLASS__, 'render_curs' ) );
 		add_shortcode( 'onuexra_convertor', array( __CLASS__, 'render_convertor' ) );
+		add_shortcode( 'onuexra_grafic', array( __CLASS__, 'render_grafic' ) );
+		add_shortcode( 'onuexra_chart', array( __CLASS__, 'render_grafic' ) );
 
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
 
@@ -58,6 +60,14 @@ class Shortcodes {
 			true
 		);
 
+		wp_register_script(
+			'onuexra-chart',
+			ONUEXRA_URL . 'assets/js/onuexra-chart.js',
+			array(),
+			ONUEXRA_VERSION,
+			true
+		);
+
 		$rates = DB::get_rates();
 		wp_localize_script(
 			'onuexra-convertor',
@@ -68,6 +78,17 @@ class Shortcodes {
 				'decimalSep' => get_option( 'onuexra_decimal_sep', ',' ),
 				'thousandSep'=> get_option( 'onuexra_thousands_sep', '.' ),
 				'decimals'   => intval( get_option( 'onuexra_decimals', 4 ) ),
+			)
+		);
+
+		wp_localize_script(
+			'onuexra-chart',
+			'onuexraChartData',
+			array(
+				'restUrl'     => esc_url_raw( rest_url( 'onuexra/v1' ) ),
+				'decimalSep'  => get_option( 'onuexra_decimal_sep', ',' ),
+				'thousandSep' => get_option( 'onuexra_thousands_sep', '.' ),
+				'decimals'    => intval( get_option( 'onuexra_decimals', 4 ) ),
 			)
 		);
 	}
@@ -431,6 +452,13 @@ class Shortcodes {
 				'render_callback' => array( __CLASS__, 'render_convertor_block' ),
 			)
 		);
+
+		register_block_type(
+			ONUEXRA_PATH . 'blocks/grafic-valutar',
+			array(
+				'render_callback' => array( __CLASS__, 'render_chart_block' ),
+			)
+		);
 	}
 
 	/**
@@ -451,6 +479,38 @@ class Shortcodes {
 				'catre'     => $catre,
 				'tema'      => $tema,
 				'densitate' => $densitate,
+			)
+		);
+	}
+
+	/**
+	 * Render callback for the Chart Gutenberg block.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return string HTML output.
+	 */
+	public static function render_chart_block( $attributes ) {
+		$valuta             = isset( $attributes['valuta'] ) ? $attributes['valuta'] : 'EUR';
+		$perioada           = isset( $attributes['perioada'] ) ? $attributes['perioada'] : '1luna';
+		$valute             = isset( $attributes['valute'] ) ? $attributes['valute'] : 'EUR,USD,GBP,CHF';
+		$comutator_perioade = isset( $attributes['comutator_perioade'] ) && ! $attributes['comutator_perioade'] ? 'nu' : 'da';
+		$comutator_valute   = isset( $attributes['comutator_valute'] ) && ! $attributes['comutator_valute'] ? 'nu' : 'da';
+		$titlu              = isset( $attributes['titlu'] ) ? $attributes['titlu'] : '';
+		$inaltime           = isset( $attributes['inaltime'] ) ? intval( $attributes['inaltime'] ) : 300;
+		$tema               = isset( $attributes['tema'] ) ? $attributes['tema'] : 'implicit';
+		$densitate          = isset( $attributes['densitate'] ) ? $attributes['densitate'] : 'implicit';
+
+		return self::render_grafic(
+			array(
+				'valuta'             => $valuta,
+				'perioada'           => $perioada,
+				'valute'             => $valute,
+				'comutator_perioade' => $comutator_perioade,
+				'comutator_valute'   => $comutator_valute,
+				'titlu'              => $titlu,
+				'inaltime'           => $inaltime,
+				'tema'               => $tema,
+				'densitate'          => $densitate,
 			)
 		);
 	}
@@ -483,4 +543,252 @@ class Shortcodes {
 			)
 		);
 	}
+
+	/**
+	 * Render BNR Exchange Rates Chart `[onuexra_grafic]`.
+	 *
+	 * @param array $atts Shortcode attributes.
+	 * @return string HTML output.
+	 */
+	public static function render_grafic( $atts ) {
+		$atts = shortcode_atts(
+			array(
+				'valuta'             => 'EUR',
+				'perioada'           => '1luna',
+				'valute'             => 'EUR,USD,GBP,CHF',
+				'comutator_perioade' => 'da',
+				'comutator_valute'   => 'da',
+				'titlu'              => '',
+				'inaltime'           => 300,
+				'tema'               => 'implicit',
+				'densitate'          => 'implicit',
+			),
+			$atts,
+			'onuexra_grafic'
+		);
+
+		wp_enqueue_style( 'onuexra-style' );
+		wp_enqueue_script( 'onuexra-chart' );
+
+		$currency           = strtoupper( sanitize_text_field( $atts['valuta'] ) );
+		$period             = DB::normalize_period( $atts['perioada'] );
+		$show_period_switch = 'da' === $atts['comutator_perioade'];
+		$show_curr_switch   = 'da' === $atts['comutator_valute'];
+		$height             = max( 180, min( 600, intval( $atts['inaltime'] ) ) );
+
+		$theme = sanitize_key( $atts['tema'] );
+		if ( ! in_array( $theme, array( 'light', 'dark' ), true ) ) {
+			$theme = get_option( 'onuexra_theme', 'light' );
+		}
+
+		$layout_style = sanitize_key( $atts['densitate'] );
+		if ( ! in_array( $layout_style, array( 'compact', 'normal', 'spacious' ), true ) ) {
+			$layout_style = get_option( 'onuexra_layout_style', 'normal' );
+		}
+
+		// Available currencies
+		$allowed_currencies_raw = array_map( 'trim', explode( ',', $atts['valute'] ) );
+		$allowed_currencies     = array();
+		foreach ( $allowed_currencies_raw as $c ) {
+			$clean_c = strtoupper( sanitize_text_field( $c ) );
+			if ( strlen( $clean_c ) === 3 && 'RON' !== $clean_c ) {
+				$allowed_currencies[] = $clean_c;
+			}
+		}
+		if ( ! in_array( $currency, $allowed_currencies, true ) ) {
+			array_unshift( $allowed_currencies, $currency );
+		}
+
+		// Period buttons definitions
+		$periods = array(
+			'7zile' => __( '7 Zile', 'curs-bnr-convertor-valutar' ),
+			'1luna' => __( '1 Lună', 'curs-bnr-convertor-valutar' ),
+			'3luni' => __( '3 Luni', 'curs-bnr-convertor-valutar' ),
+			'1an'   => __( '1 An', 'curs-bnr-convertor-valutar' ),
+			'5ani'  => __( '5 Ani', 'curs-bnr-convertor-valutar' ),
+		);
+
+		$end_date   = current_time( 'Y-m-d' );
+		$start_date = DB::calculate_start_date( $period, $end_date );
+
+		// Retrieve initial dataset from DB
+		$rates = DB::get_historical_rates( $currency, $start_date, $end_date );
+
+		// Auto-heal: If empty, sync daily rates
+		if ( empty( $rates ) ) {
+			$current_year = intval( gmdate( 'Y' ) );
+			if ( ! DB::has_historical_data_for_year( $current_year ) ) {
+				$lock = get_transient( 'onuexra_syncing_current_year' );
+				if ( false === $lock ) {
+					set_transient( 'onuexra_syncing_current_year', 1, 60 );
+					Fetcher::fetch_daily();
+					$rates = DB::get_historical_rates( $currency, $start_date, $end_date );
+				}
+			}
+		}
+
+		$multiplier = 1;
+		if ( ! empty( $rates ) && isset( $rates[0]['multiplier'] ) ) {
+			$multiplier = intval( $rates[0]['multiplier'] );
+		}
+		$label = $multiplier > 1 ? "$multiplier $currency" : $currency;
+
+		$title = $atts['titlu'];
+		if ( empty( $title ) ) {
+			/* translators: %s: currency code */
+			$title = sprintf( __( 'Evoluție Curs BNR – %s', 'curs-bnr-convertor-valutar' ), $label );
+		}
+
+		$initial_data_json = '';
+		$current_rate_str  = '-';
+		$diff_badge_html   = '';
+		$min_str           = '-';
+		$max_str           = '-';
+		$avg_str           = '-';
+		$period_span_str   = '';
+
+		if ( ! empty( $rates ) ) {
+			$all_rates    = array_column( $rates, 'rate' );
+			$first_point  = reset( $rates );
+			$last_point   = end( $rates );
+			$start_rate   = floatval( $first_point['rate'] );
+			$current_rate = floatval( $last_point['rate'] );
+
+			$diff     = $current_rate - $start_rate;
+			$diff_pct = $start_rate > 0 ? ( $diff / $start_rate ) * 100 : 0;
+			$min_rate = min( $all_rates );
+			$max_rate = max( $all_rates );
+			$avg_rate = count( $all_rates ) > 0 ? ( array_sum( $all_rates ) / count( $all_rates ) ) : $current_rate;
+
+			$sign = $diff > 0 ? '+' : '';
+
+			$points = array();
+			foreach ( $rates as $row ) {
+				$points[] = array(
+					'date'           => $row['date'],
+					'rate'           => $row['rate'],
+					'formatted_rate' => self::format_rate( $row['rate'] ),
+					'formatted_date' => date_i18n( 'j F Y', strtotime( $row['date'] ) ),
+					'short_date'     => date_i18n( 'j M', strtotime( $row['date'] ) ),
+				);
+			}
+
+			$current_rate_str = self::format_rate( $current_rate ) . ' RON';
+			$diff_class       = $diff >= 0 ? 'onuexra-diff-up' : 'onuexra-diff-down';
+			$diff_text        = $sign . self::format_rate( $diff ) . ' (' . $sign . number_format( $diff_pct, 2, ',', '.' ) . '%)';
+			$diff_badge_html  = '<span class="onuexra-chart-current-diff ' . esc_attr( $diff_class ) . '">' . esc_html( $diff_text ) . '</span>';
+
+			$min_str         = self::format_rate( $min_rate ) . ' RON';
+			$max_str         = self::format_rate( $max_rate ) . ' RON';
+			$avg_str         = self::format_rate( $avg_rate ) . ' RON';
+			$period_span_str = date_i18n( 'j M Y', strtotime( $first_point['date'] ) ) . ' – ' . date_i18n( 'j M Y', strtotime( $last_point['date'] ) );
+
+			$data_payload = array(
+				'success'            => true,
+				'currency'           => $currency,
+				'label'              => $label,
+				'multiplier'         => $multiplier,
+				'period'             => $period,
+				'start_date'         => $start_date,
+				'end_date'           => $end_date,
+				'count'              => count( $rates ),
+				'current_rate'       => $current_rate,
+				'start_rate'         => $start_rate,
+				'min_rate'           => $min_rate,
+				'max_rate'           => $max_rate,
+				'avg_rate'           => round( $avg_rate, 4 ),
+				'diff'               => $diff,
+				'diff_pct'           => round( $diff_pct, 2 ),
+				'is_positive'        => $diff >= 0,
+				'formatted_current'  => self::format_rate( $current_rate ),
+				'formatted_min'      => self::format_rate( $min_rate ),
+				'formatted_max'      => self::format_rate( $max_rate ),
+				'formatted_avg'      => self::format_rate( $avg_rate ),
+				'formatted_diff'     => $sign . self::format_rate( $diff ),
+				'formatted_diff_pct' => $sign . number_format( $diff_pct, 2, ',', '.' ) . '%',
+				'points'             => $points,
+			);
+
+			$initial_data_json = wp_json_encode( $data_payload );
+		}
+
+		ob_start();
+		?>
+		<div class="onuexra-chart-wrapper onuexra-rates-container onuexra-theme-<?php echo esc_attr( $theme ); ?> onuexra-layout-<?php echo esc_attr( $layout_style ); ?>" 
+			data-currency="<?php echo esc_attr( $currency ); ?>" 
+			data-period="<?php echo esc_attr( $period ); ?>" 
+			data-height="<?php echo esc_attr( $height ); ?>">
+			
+			<div class="onuexra-chart-top-bar">
+				<div class="onuexra-chart-heading-group">
+					<span class="onuexra-chart-title"><?php echo esc_html( $title ); ?></span>
+					<?php if ( $show_curr_switch && count( $allowed_currencies ) > 1 ) : ?>
+						<select class="onuexra-chart-currency-select" aria-label="<?php esc_attr_e( 'Select currency', 'curs-bnr-convertor-valutar' ); ?>">
+							<?php foreach ( $allowed_currencies as $c_opt ) : ?>
+								<option value="<?php echo esc_attr( $c_opt ); ?>" <?php selected( $currency, $c_opt ); ?>>
+									<?php echo esc_html( $c_opt ); ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+					<?php endif; ?>
+				</div>
+
+				<?php if ( $show_period_switch ) : ?>
+					<div class="onuexra-chart-periods" role="group" aria-label="<?php esc_attr_e( 'Chart time period', 'curs-bnr-convertor-valutar' ); ?>">
+						<?php foreach ( $periods as $p_key => $p_label ) : ?>
+							<button type="button" 
+								class="onuexra-period-btn <?php echo ( $period === $p_key ) ? 'is-active' : ''; ?>" 
+								data-period="<?php echo esc_attr( $p_key ); ?>">
+								<?php echo esc_html( $p_label ); ?>
+							</button>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
+			</div>
+
+			<div class="onuexra-chart-header-stats">
+				<div class="onuexra-chart-hero-rate">
+					<span class="onuexra-chart-current-value"><?php echo esc_html( $current_rate_str ); ?></span>
+					<?php echo $diff_badge_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</div>
+			</div>
+
+			<div class="onuexra-chart-stats-grid">
+				<div class="onuexra-stat-card">
+					<div class="onuexra-stat-label"><?php esc_html_e( 'Minim', 'curs-bnr-convertor-valutar' ); ?></div>
+					<div class="onuexra-stat-value onuexra-stat-min"><?php echo esc_html( $min_str ); ?></div>
+				</div>
+				<div class="onuexra-stat-card">
+					<div class="onuexra-stat-label"><?php esc_html_e( 'Maxim', 'curs-bnr-convertor-valutar' ); ?></div>
+					<div class="onuexra-stat-value onuexra-stat-max"><?php echo esc_html( $max_str ); ?></div>
+				</div>
+				<div class="onuexra-stat-card">
+					<div class="onuexra-stat-label"><?php esc_html_e( 'Medie', 'curs-bnr-convertor-valutar' ); ?></div>
+					<div class="onuexra-stat-value onuexra-stat-avg"><?php echo esc_html( $avg_str ); ?></div>
+				</div>
+				<div class="onuexra-stat-card">
+					<div class="onuexra-stat-label"><?php esc_html_e( 'Variație', 'curs-bnr-convertor-valutar' ); ?></div>
+					<div class="onuexra-stat-value onuexra-stat-change"><?php echo ! empty( $diff_text ) ? esc_html( $diff_text ) : '—'; ?></div>
+				</div>
+			</div>
+
+			<div class="onuexra-chart-canvas-container" style="min-height: <?php echo esc_attr( $height ); ?>px;">
+				<div class="onuexra-chart-loader">
+					<div class="onuexra-chart-spinner"></div>
+				</div>
+				<?php if ( empty( $rates ) ) : ?>
+					<div class="onuexra-chart-empty-msg">
+						<?php esc_html_e( 'Nu există date disponibile pentru perioada selectată. Datele se vor actualiza automat.', 'curs-bnr-convertor-valutar' ); ?>
+					</div>
+				<?php endif; ?>
+			</div>
+
+			<?php if ( ! empty( $initial_data_json ) ) : ?>
+				<script type="application/json" class="onuexra-initial-chart-data"><?php echo $initial_data_json; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></script>
+			<?php endif; ?>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
 }
+

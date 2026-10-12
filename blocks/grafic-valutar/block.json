@@ -1,0 +1,55 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "curs-bnr-convertor-valutar/grafic-valutar",
+	"title": "BNR Exchange Rates Chart",
+	"category": "widgets",
+	"icon": "chart-line",
+	"description": "Interactive historical exchange rate evolution chart for BNR currencies.",
+	"keywords": [ "bnr", "chart", "grafic", "curs", "exchange rates" ],
+	"textdomain": "curs-bnr-convertor-valutar",
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"attributes": {
+		"valuta": {
+			"type": "string",
+			"default": "EUR"
+		},
+		"perioada": {
+			"type": "string",
+			"default": "1luna"
+		},
+		"valute": {
+			"type": "string",
+			"default": "EUR,USD,GBP,CHF"
+		},
+		"comutator_perioade": {
+			"type": "boolean",
+			"default": true
+		},
+		"comutator_valute": {
+			"type": "boolean",
+			"default": true
+		},
+		"titlu": {
+			"type": "string",
+			"default": ""
+		},
+		"inaltime": {
+			"type": "number",
+			"default": 300
+		},
+		"tema": {
+			"type": "string",
+			"default": "implicit"
+		},
+		"densitate": {
+			"type": "string",
+			"default": "implicit"
+		}
+	},
+	"editorScript": "file:../../build/index.js",
+	"style": "onuexra-style"
+}

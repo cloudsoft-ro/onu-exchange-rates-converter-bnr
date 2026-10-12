@@ -22,8 +22,9 @@
 | 📡 **Auto-fetch** | Daily rates from the official BNR XML feed via WP Cron |
 | 🗄️ **Historical data** | Full history stored in a custom database table — query any past date |
 | 💱 **Currency converter** | Interactive calculator with RON as the pivot currency |
+| 📈 **Historical Chart** | Interactive SVG graph widget (7 days, 1 month, 3 months, 1 year, 5 years) |
 | 📊 **Trend badges** | Color-coded daily variation indicators (increase / decrease) |
-| ⚙️ **Shortcodes** | `[onuexra_curs]` and `[onuexra_convertor]` |
+| ⚙️ **Shortcodes** | `[onuexra_curs]`, `[onuexra_convertor]`, and `[onuexra_grafic]` |
 | 🧱 **Gutenberg block** | Native block with live Server-Side Render preview in the editor |
 | 🎨 **Elementor widget** | Loaded conditionally only if Elementor is active |
 | 🔲 **Classic widget** | Standard WordPress sidebar/footer widget |
@@ -80,6 +81,24 @@
 [onuexra_convertor]
 ```
 
+**Display exchange rates chart:**
+```
+[onuexra_grafic]
+[onuexra_grafic valuta="EUR" perioada="1luna" comutator_perioade="da" inaltime="320"]
+```
+
+| Attribute | Values | Default | Description |
+|---|---|---|---|
+| `valuta` | 3-letter currency code (e.g. `EUR`, `USD`, `GBP`) | `EUR` | Default charted currency |
+| `perioada` | `7zile`, `1luna`, `3luni`, `1an`, `5ani` | `1luna` | Default timeframe range |
+| `comutator_perioade` | `da`, `nu` | `da` | Show 7Z / 1L / 3L / 1A / 5A buttons |
+| `comutator_valute` | `da`, `nu` | `da` | Allow visitor to switch currency |
+| `valute` | Comma-separated currency codes | `EUR,USD,GBP,CHF` | Currencies in the dropdown |
+| `titlu` | Text | Empty | Custom chart title |
+| `inaltime` | Number (pixels, 180-600) | `300` | Chart height |
+| `tema` | `implicit`, `light`, `dark` | `implicit` | Theme style |
+| `densitate` | `implicit`, `compact`, `normal`, `spacious` | `implicit` | Layout padding |
+
 ### REST API
 
 The plugin exposes a public REST API:
@@ -87,6 +106,7 @@ The plugin exposes a public REST API:
 ```
 GET /wp-json/onuexra/v1/rates?date=2026-07-09
 GET /wp-json/onuexra/v1/convert?amount=100&from=EUR&to=USD&date=2026-07-09
+GET /wp-json/onuexra/v1/chart-data?currency=EUR&period=1luna
 ```
 
 ---

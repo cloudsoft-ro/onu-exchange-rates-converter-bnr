@@ -325,4 +325,166 @@ class DB {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->query( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	}
+
+	/**
+	 * Normalize period string.
+	 *
+	 * @param string $period Period key (e.g. '7zile', '1luna', '3luni', '1an', '5ani').
+	 * @return string Normalized period key.
+	 */
+	public static function normalize_period( $period ) {
+		$period = strtolower( trim( (string) $period ) );
+		switch ( $period ) {
+			case '7zile':
+			case '7z':
+			case '7days':
+			case '7d':
+			case '7_zile':
+				return '7zile';
+
+			case '1luna':
+			case '1l':
+			case '1month':
+			case '1m':
+			case '1_luna':
+				return '1luna';
+
+			case '3luni':
+			case '3l':
+			case '3months':
+			case '3m':
+			case '3_luni':
+				return '3luni';
+
+			case '1an':
+			case '1a':
+			case '1year':
+			case '1y':
+			case '1_an':
+				return '1an';
+
+			case '5ani':
+			case '5a':
+			case '5years':
+			case '5y':
+			case '5_ani':
+				return '5ani';
+
+			default:
+				return '1luna';
+		}
+	}
+
+	/**
+	 * Calculate start date for a specific period.
+	 *
+	 * @param string      $period   Normalized period key ('7zile', '1luna', '3luni', '1an', '5ani').
+	 * @param string|null $end_date Target end date in YYYY-MM-DD (defaults to today).
+	 * @return string Start date in YYYY-MM-DD.
+	 */
+	public static function calculate_start_date( $period, $end_date = null ) {
+		$period = self::normalize_period( $period );
+		$end_ts = $end_date ? strtotime( $end_date ) : current_time( 'timestamp' );
+
+		switch ( $period ) {
+			case '7zile':
+				return gmdate( 'Y-m-d', strtotime( '-7 days', $end_ts ) );
+			case '1luna':
+				return gmdate( 'Y-m-d', strtotime( '-1 month', $end_ts ) );
+			case '3luni':
+				return gmdate( 'Y-m-d', strtotime( '-3 months', $end_ts ) );
+			case '1an':
+				return gmdate( 'Y-m-d', strtotime( '-1 year', $end_ts ) );
+			case '5ani':
+				return gmdate( 'Y-m-d', strtotime( '-5 years', $end_ts ) );
+			default:
+				return gmdate( 'Y-m-d', strtotime( '-1 month', $end_ts ) );
+		}
+	}
+
+	/**
+	 * Get historical exchange rates for a currency over a date range.
+	 *
+	 * @param string      $currency_code 3-letter currency code (e.g. 'EUR').
+	 * @param string      $start_date    Start date in YYYY-MM-DD format.
+	 * @param string|null $end_date      End date in YYYY-MM-DD format (defaults to current date).
+	 * @return array Array of rate objects [ 'date' => 'YYYY-MM-DD', 'rate' => float, 'multiplier' => int, 'raw_rate' => float ].
+	 */
+	public static function get_historical_rates( $currency_code, $start_date, $end_date = null ) {
+		global $wpdb;
+
+		$table_name    = esc_sql( self::get_table_name() );
+		$currency_code = strtoupper( sanitize_text_field( $currency_code ) );
+
+		if ( ! $end_date ) {
+			$end_date = current_time( 'Y-m-d' );
+		}
+
+		$cache_key = 'onuexra_hist_' . $currency_code . '_' . $start_date . '_' . $end_date;
+		$cached    = wp_cache_get( $cache_key, 'onuexra' );
+		if ( false !== $cached ) {
+			return $cached;
+		}
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$query = $wpdb->prepare(
+			"SELECT rate_date, rate, multiplier FROM $table_name 
+			WHERE currency_code = %s AND rate_date >= %s AND rate_date <= %s 
+			ORDER BY rate_date ASC",
+			$currency_code,
+			$start_date,
+			$end_date
+		);
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$results = $wpdb->get_results( $query, ARRAY_A ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+		$data = array();
+		if ( ! empty( $results ) ) {
+			foreach ( $results as $row ) {
+				$raw_rate   = floatval( $row['rate'] );
+				$multiplier = intval( $row['multiplier'] );
+				if ( $multiplier <= 0 ) {
+					$multiplier = 1;
+				}
+
+				$data[] = array(
+					'date'       => $row['rate_date'],
+					'rate'       => $raw_rate,
+					'multiplier' => $multiplier,
+				);
+			}
+		}
+
+		wp_cache_set( $cache_key, $data, 'onuexra', HOUR_IN_SECONDS );
+
+		return $data;
+	}
+
+	/**
+	 * Check if any exchange rates exist for a given year.
+	 *
+	 * @param int $year Year.
+	 * @return bool True if records exist for that year, false otherwise.
+	 */
+	public static function has_historical_data_for_year( $year ) {
+		global $wpdb;
+
+		$year       = intval( $year );
+		$table_name = esc_sql( self::get_table_name() );
+		$start_date = "$year-01-01";
+		$end_date   = "$year-12-31";
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$query = $wpdb->prepare(
+			"SELECT 1 FROM $table_name WHERE rate_date >= %s AND rate_date <= %s LIMIT 1",
+			$start_date,
+			$end_date
+		);
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+		$exists = $wpdb->get_var( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+		return ! empty( $exists );
+	}
 }

@@ -272,3 +272,88 @@ msgstr ""
 
 msgid "To (target currency)"
 msgstr ""
+
+msgid "BNR Exchange Rates Chart"
+msgstr ""
+
+msgid "Display interactive historical exchange rates chart for BNR currencies."
+msgstr ""
+
+msgid "Default Currency:"
+msgstr ""
+
+msgid "Default Period:"
+msgstr ""
+
+msgid "Last 7 Days"
+msgstr ""
+
+msgid "Last 1 Month"
+msgstr ""
+
+msgid "Last 3 Months"
+msgstr ""
+
+msgid "Last 1 Year"
+msgstr ""
+
+msgid "Last 5 Years"
+msgstr ""
+
+msgid "Show period switcher (7d, 1m, 3m, 1y, 5y)"
+msgstr ""
+
+msgid "Allow switching currency"
+msgstr ""
+
+msgid "Selectable currencies (comma separated):"
+msgstr ""
+
+msgid "Chart Height (px):"
+msgstr ""
+
+msgid "Evoluție Curs BNR – %s"
+msgstr ""
+
+msgid "7 Zile"
+msgstr ""
+
+msgid "1 Lună"
+msgstr ""
+
+msgid "3 Luni"
+msgstr ""
+
+msgid "1 An"
+msgstr ""
+
+msgid "5 Ani"
+msgstr ""
+
+msgid "Minim"
+msgstr ""
+
+msgid "Maxim"
+msgstr ""
+
+msgid "Medie"
+msgstr ""
+
+msgid "Variație"
+msgstr ""
+
+msgid "Sync Last 5 Years (for Charts)"
+msgstr ""
+
+msgid "Sync of last 5 years completed. Processed %1$d year(s), %2$d date(s), and saved %3$d rate(s)."
+msgstr ""
+
+msgid "No exchange rates available for the requested currency and period."
+msgstr ""
+
+msgid "RON is the base pivot currency; cannot chart RON against itself."
+msgstr ""
+
+msgid "Nu există date disponibile pentru perioada selectată. Datele se vor actualiza automat."
+msgstr ""
+

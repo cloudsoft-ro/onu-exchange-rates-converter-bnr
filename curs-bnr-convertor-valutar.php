@@ -3,7 +3,7 @@
  * Plugin Name:       Onu Exchange Rates and Converter for BNR
  * Plugin URI:        https://buymeacoffee.com/constantinonu
  * Description:       Exchange rates from the National Bank of Romania (BNR), auto-updated daily, currency converter, widget, shortcode, Gutenberg block, and Elementor widget.
- * Version:           1.0.5
+ * Version:           1.0.6
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Constantin Onu
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define Constants.
-define( 'ONUEXRA_VERSION', '1.0.5' );
+define( 'ONUEXRA_VERSION', '1.0.6' );
 define( 'ONUEXRA_DB_VERSION', '1.0.0' );
 define( 'ONUEXRA_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ONUEXRA_URL', plugin_dir_url( __FILE__ ) );
@@ -33,6 +33,7 @@ require_once ONUEXRA_PATH . 'includes/class-onuexra-cron.php';
 require_once ONUEXRA_PATH . 'includes/class-onuexra-rest.php';
 require_once ONUEXRA_PATH . 'includes/class-onuexra-shortcodes.php';
 require_once ONUEXRA_PATH . 'includes/class-onuexra-widget.php';
+require_once ONUEXRA_PATH . 'includes/class-onuexra-widget-chart.php';
 require_once ONUEXRA_PATH . 'includes/class-onuexra-admin.php';
 
 /**
@@ -64,6 +65,7 @@ function onuexra_init_plugin() {
 	OnuExra\REST::init();
 	OnuExra\Shortcodes::init();
 	OnuExra\Widget::register();
+	OnuExra\Widget_Chart::register();
 	OnuExra\Admin::init();
 
 	if ( did_action( 'elementor/loaded' ) ) {

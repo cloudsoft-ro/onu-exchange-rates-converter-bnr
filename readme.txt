@@ -5,7 +5,7 @@ Tags: exchange rates, currency converter, bnr, gutenberg block, elementor
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,11 +22,13 @@ This plugin performs external HTTP requests to the official BNR XML feed once a 
 * Automatic daily fetch of BNR exchange rates (WordPress Cron)
 * Complete historical exchange rate entries saved in a custom database table
 * Interactive currency converter calculator widget (RON is the pivot currency)
+* Interactive exchange rates historical chart widget (configurable for 7 days, 1 month, 3 months, 1 year, 5 years)
 * `[onuexra_curs]` shortcode for displaying selected rates
 * `[onuexra_convertor]` shortcode for rendering the conversion calculator
-* Classic sidebar and footer widgets
-* Native Gutenberg block with live preview in the editor
-* Elementor page builder widget integration (loaded conditionally)
+* `[onuexra_grafic]` shortcode for displaying historical exchange rate charts
+* Classic sidebar and footer widgets (rates list and chart widget)
+* Native Gutenberg blocks for exchange rates, converter, and chart with live preview in the editor
+* Elementor page builder widgets integration (rates list and chart widget)
 * Daily rate trend variations (increases/decreases marked by color-coded badges)
 
 = Gutenberg Block Source Code =
@@ -75,6 +77,12 @@ Yes. The Elementor widget is loaded only if the Elementor plugin is active. Shor
 4. Gutenberg block preview în editor
 
 == Changelog ==
+
+= 1.0.6 =
+* Nou: Adăugat widget grafic interactiv pentru evoluția cursului valutar BNR, configurabil pe ultimele 7 zile, 1 lună, 3 luni, 1 an și 5 ani.
+* Nou: Adăugat shortcode [onuexra_grafic] (și alias [onuexra_chart]), bloc nativ Gutenberg cu previzualizare live, widget clasic WordPress și widget Elementor dedicat pentru grafic.
+* Nou: Adăugat acțiune rapidă în panoul de administrare pentru sincronizarea automată a istoricului pe ultimii 5 ani.
+* Nou: Endpoint REST API dedicat (/wp-json/onuexra/v1/chart-data) pentru interogarea seriilor de date istorice și a indicatorilor statistici.
 
 = 1.0.5 =
 * Fix: Actualizat URL-urile XML ale BNR de la `www.bnr.ro` la noul subdomeniu `curs.bnr.ro`, în conformitate cu anunțul BNR din 6 august 2026. Fără această actualizare, sincronizarea zilnică eșua cu eroarea „BNR server did not return XML".
